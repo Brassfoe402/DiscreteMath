@@ -1,0 +1,29 @@
+def kruskal(graph):
+    edges = []
+    for v in range(len(graph)):
+        for u in range(v + 1, len(graph)):
+            if graph[v][u] != 0:
+                edges.append((graph[v][u], v, u))
+    edges.sort()
+    mn = []
+    sets = [{i} for i in range(len(graph))]
+    while len(mn) != len(graph) - 1:
+        weight, v, u = edges.pop(0)
+        if sets[v] != sets[u]:
+            mn.append((v, u, weight))
+            set_v = sets[v]
+            set_u = sets[u]
+            new_set = set_v.union(set_u)
+            for i in new_set:
+                sets[i] = new_set
+    return mn
+graph = [[0,15,0,23,14,0,0,0,0 ],
+         [0, 0, 19, 16,15,0,0,0,0],
+         [0, 0, 0, 0,14,26,0,0,0],
+         [0, 0, 0, 0, 25, 0,23,20,0],
+         [0, 0, 0, 0, 0, 24,0,27,18],
+         [0, 0, 0, 0, 0, 0,0,0,0],
+         [0, 0, 0, 0, 0, 0,0,14,0],
+         [0, 0, 0, 0, 0, 0,0,0,18]]
+mn = kruskal(graph)
+print(mn)
