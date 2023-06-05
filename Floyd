@@ -1,0 +1,70 @@
+using System;
+using System.IO;
+using System.Collections.Generic;
+
+class Floyd
+{
+   static void Main() 
+   {
+      StreamReader file = new StreamReader("test.txt");
+      
+      string line = "something for str was not empty";
+      
+      int n = 4; // кол-во точек
+      
+      int[,] mat = new int[n, n];  // конечная
+      int[,] start = new int[n, n];  // начальная
+
+      int[] help = new int[3]; 
+      
+      while (line != null)
+      {
+         line = file.ReadLine();
+         if (line != null)
+            {
+               help = Array.ConvertAll(line.Split(" "), int.Parse);
+               mat[help[0] - 1, help[1] - 1] = help[2];
+            }
+      }
+      
+      for(int i = 0; i < n; i++)
+      {
+         for(int j = 0; j < n; j++)
+         {
+            start[i, j] = mat[i, j];     // передача начальной
+         }
+      }
+      
+      for (int k = 0; k < n ; k++)
+      {
+         for (int i = 0; i < n ; i++)
+         {
+            for (int j = 0; j < n ; j++)
+            {
+               mat[i, j] = Math.Min(mat[i, j] , mat[i, k] + mat[k, j]);    // работа алгоритма
+            }
+         }
+      } 
+      
+      Console.WriteLine("Начальная: ");
+      for (int i = 0; i < n; i++ )
+      {
+         for(int j = 0; j < n; j++)
+         {
+            Console.Write(start[i, j] + " ");
+         }
+         Console.WriteLine();
+      }
+      
+      Console.WriteLine();
+      
+      Console.WriteLine("Конечная: ");
+      for (int i = 0; i < n; i++ )
+      {
+         for(int j = 0; j < n; j++)
+         {
+            Console.Write(mat[i, j] + " ");
+         }
+         Console.WriteLine();
+      }
+   }
